@@ -1,3 +1,5 @@
-module.exports.dashboardController = (req, res) => {
-  res.send("trang admin");
+module.exports.dashBoard = (req, res) => {
+  res.render("admin/pages/dashBoard/index.pug", {
+    pageTitle: "dashBoard",
+  });
 };

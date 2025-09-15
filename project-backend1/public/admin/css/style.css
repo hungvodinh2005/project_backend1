@@ -1,0 +1,48 @@
+a {
+  text-decoration: none;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background-color: rgb(231, 223, 223);
+  padding: 10px 0px;
+}
+.header .inner-logo a {
+  font-size: 30px;
+  text-decoration: none;
+  color: rgb(211, 22, 145);
+  font-weight: 900;
+}
+
+.sider {
+  position: fixed;
+  left: 0px;
+  top: 65px;
+  width: 160px;
+  height: calc(100vh - 60px);
+  background-color: bisque;
+  color: rgb(100, 3, 40);
+
+  font-size: 25px;
+  font-weight: 500;
+  padding-top: 10px;
+}
+.main {
+  position: relative;
+  padding-left: 20px;
+  left: 160px;
+  width: calc(100% - 160px);
+  background-color: rgb(205, 218, 229);
+}
+.sider .inner-menu ul {
+  list-style-type: none;
+
+  padding-left: 8px;
+}
+.sider .inner-menu ul li {
+  box-shadow: 0.15px 1px 1px rgb(205, 173, 173);
+}
+.sider .inner-menu ul li a {
+  color: rgb(53, 30, 2);
+}
