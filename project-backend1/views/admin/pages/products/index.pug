@@ -1,0 +1,28 @@
+extends ../../layouts/default.pug 
+block main
+    h1 DANH SACH SAN PHAM
+    table.table.table-hover.table-bordered.table-striped.table-success
+        thead 
+            tr.align-middle 
+                th STT 
+                th Hình ảnh 
+                th Tiêu Đề
+                th Giá
+                th Trạng Thái 
+                th Hành Động 
+        tbody
+            each item,index in products 
+                tr.align-middle  
+                    td #{index+1}
+                    td 
+                        img(src=item.thumbnail, height="40",width="80", alt="iphone")  
+                    td #{item.title}
+                    td #{item.price}$
+                    td  
+                        if item.status=="active"
+                            button(class="badge rounded-pill text-bg-success border-0") Hoạt Động
+                        else 
+                            button(class="badge rounded-pill text-bg-danger border-0") Không Hoạt Động
+                    td 
+                        button(class="btn btn-warning btn-sm") Sửa
+                        button(class="btn btn-danger btn-sm",style="margin-left:2px") Xóa  
