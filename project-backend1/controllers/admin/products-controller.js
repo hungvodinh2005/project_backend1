@@ -28,3 +28,12 @@ module.exports.productController = async (req, res) => {
     currentPage: dividePage.currentPage,
   });
 };
+module.exports.changeStatus = async (req, res) => {
+  const id = req.params.id;
+  const status = req.params.status;
+
+  const newStatus = status == "active" ? "inactive" : "active";
+  console.log(id, newStatus);
+  await product.findOne({ _id: id }).updateOne({ status: newStatus });
+  res.redirect(req.get("Referer"));
+};
