@@ -1,28 +1,61 @@
 extends ../../layouts/default.pug 
+include ../../mixins/filterStatus.pug
+include ../../mixins/search.pug
 block main
-    h1 DANH SACH SAN PHAM
-    table.table.table-hover.table-bordered.table-striped.table-success
-        thead 
-            tr.align-middle 
-                th STT 
-                th Hình ảnh 
-                th Tiêu Đề
-                th Giá
-                th Trạng Thái 
-                th Hành Động 
-        tbody
-            each item,index in products 
-                tr.align-middle  
-                    td #{index+1}
+    
+    h1(class="pt-2 text-center") DANH SÁCH SẢN PHẨM
+    .card.mb-3
+        .card-header 
+            span(class="fs-4") Bộ lọc và tìm kiếm
+        .card-body
+            .row 
+                +filterStatus(filterStatus)
+                +search(search)
+            
+    .card.mb-3
+        .card-header Danh sách
+
+        table.table.table-hover.table-bordered.table-striped.rounded-3
+            thead 
+                tr.align-middle 
+                    th STT 
+                    th Hình ảnh 
+                    th Tiêu Đề
+                    th Giá
+                    th Trạng Thái 
+                    th Hành Động 
+            tbody
+                each item,index in products 
+                    tr.align-middle  
+                        td #{index+1}
+                        td 
+                            img(src=item.thumbnail, height="40",width="80", alt="iphone")  
+                        td #{item.title}
+                        td #{item.price}$
+                        td  
+                            if item.status=="active"
+                                button(class="badge rounded-pill text-bg-success border-0") Hoạt Động
+                            else 
+                                button(class="badge rounded-pill text-bg-danger border-0") Không Hoạt Động
+                        td 
+                            button(class="btn btn-warning btn-sm") Sửa
+                            button(class="btn btn-danger btn-sm",style="margin-left:2px") Xóa  
+            tfoot 
+                tr 
                     td 
-                        img(src=item.thumbnail, height="40",width="80", alt="iphone")  
-                    td #{item.title}
-                    td #{item.price}$
-                    td  
-                        if item.status=="active"
-                            button(class="badge rounded-pill text-bg-success border-0") Hoạt Động
-                        else 
-                            button(class="badge rounded-pill text-bg-danger border-0") Không Hoạt Động
                     td 
-                        button(class="btn btn-warning btn-sm") Sửa
-                        button(class="btn btn-danger btn-sm",style="margin-left:2px") Xóa  
+                    td 
+                    td 
+                    td 
+                    td 
+    nav 
+        ul.pagination 
+            if currentPage>1 
+                li.page-item
+                    button(class="page-link" button-pages=currentPage-1) Previous
+            -for(let i=1;i<=totalPages;i++)
+                li.page-item
+                   button(class=`page-link ${currentPage == i ? "active" : ""}` button-pages=i ) #{i} 
+            if currentPage<totalPages 
+                li.page-item
+                    button(class="page-link" button-pages=currentPage+1) Next

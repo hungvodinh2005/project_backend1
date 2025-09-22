@@ -5,13 +5,13 @@ a {
 .header {
   position: sticky;
   top: 0;
-  background-color: rgb(231, 223, 223);
+  background-color: rgb(109, 109, 109);
   padding: 10px 0px;
 }
 .header .inner-logo a {
   font-size: 30px;
   text-decoration: none;
-  color: rgb(211, 22, 145);
+  color: rgb(249, 249, 249);
   font-weight: 900;
 }
 
@@ -21,7 +21,7 @@ a {
   top: 65px;
   width: 160px;
   height: calc(100vh - 60px);
-  background-color: bisque;
+  background-color: rgb(141, 140, 140);
   color: rgb(100, 3, 40);
 
   font-size: 25px;
@@ -31,18 +31,25 @@ a {
 .main {
   position: relative;
   padding-left: 20px;
+  padding-right: 20px;
   left: 160px;
+  right: 10px;
   width: calc(100% - 160px);
-  background-color: rgb(205, 218, 229);
+  background-color: rgb(234, 235, 237);
+}
+.card:nth-child(2) {
+  position: sticky;
+  top: 0;
+
+  z-index: 999;
 }
 .sider .inner-menu ul {
   list-style-type: none;
-
   padding-left: 8px;
 }
 .sider .inner-menu ul li {
-  box-shadow: 0.15px 1px 1px rgb(205, 173, 173);
+  box-shadow: 0.15px 1px 1px rgb(232, 226, 226);
 }
 .sider .inner-menu ul li a {
-  color: rgb(53, 30, 2);
+  color: rgb(244, 244, 244);
 }
