@@ -15,10 +15,21 @@ block main
             
     .card.mb-3
         .card-header Danh sách
+        .row 
+            .col-6 
+                form(action=`${prefixAdmin}/products/changeMulti?_method=PATCH`, method="post",formChangeMulti)
+                    .input-group 
+                        select(name="type" class="ms-2 mt-2 form-select w-25" ) 
+                            option(value="active") Hoạt Động
+                            option(value="inactive") Không Hoạt Động
+                        input(type="text" name="id" class="form-control mt-2 d-none")
+                        button(type="submit" class="btn btn-success mt-2 " disabled) Change
 
         table.table.table-hover.table-bordered.table-striped.rounded-3
             thead 
-                tr.align-middle 
+                tr.align-middle
+                    th 
+                        input(type="checkbox",checkboxAll) 
                     th STT 
                     th Hình ảnh 
                     th Tiêu Đề
@@ -27,7 +38,9 @@ block main
                     th Hành Động 
             tbody
                 each item,index in products 
-                    tr.align-middle  
+                    tr.align-middle 
+                        td 
+                             input(type="checkbox",value=item._id,checkboxChild)     
                         td #{index+1}
                         td 
                             img(src=item.thumbnail, height="40",width="80", alt="iphone")  

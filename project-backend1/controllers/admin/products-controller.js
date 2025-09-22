@@ -37,3 +37,12 @@ module.exports.changeStatus = async (req, res) => {
   await product.findOne({ _id: id }).updateOne({ status: newStatus });
   res.redirect(req.get("Referer"));
 };
+module.exports.changeMulti = async (req, res) => {
+  const typeid = req.body;
+  const status = typeid.type;
+  const id = typeid.id.split(",");
+
+  await product.updateMany({ _id: { $in: id } }, { status: status });
+
+  res.redirect(req.get("referer"));
+};

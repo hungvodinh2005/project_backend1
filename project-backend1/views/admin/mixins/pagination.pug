@@ -9,4 +9,4 @@ mixin pagination(currentPage,totalPages)
                    button(class=`page-link ${currentPage == i ? "active" : ""}` button-pages=i ) #{i} 
             if currentPage<totalPages 
                 li.page-item
-                    button(class="page-link" button-pages=currentPage+1) Next
+                    button(class="page-link" button-pages=parseInt(currentPage)+1) Next
