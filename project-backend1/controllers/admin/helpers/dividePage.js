@@ -9,7 +9,7 @@ module.exports.dividePage = async (product, reqQuery) => {
       status: reqQuery.status,
     });
   } else {
-    totalElement = await product.countDocuments();
+    totalElement = await product.countDocuments({ deleted: false });
   }
   let totalPages = Math.ceil(totalElement / objectPages.limitElement);
 

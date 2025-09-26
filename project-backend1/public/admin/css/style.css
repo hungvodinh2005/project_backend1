@@ -7,6 +7,7 @@ a {
   top: 0;
   background-color: rgb(109, 109, 109);
   padding: 10px 0px;
+  z-index: 999;
 }
 .header .inner-logo a {
   font-size: 30px;
@@ -52,4 +53,34 @@ a {
 }
 .sider .inner-menu ul li a {
   color: rgb(244, 244, 244);
+}
+.notice-box {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 250px;
+  z-index: 9999;
+
+  /* ban đầu hiển thị */
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 1s ease, transform 1s ease; /* mềm mại */
+}
+
+/* khi muốn ẩn */
+.notice-box.hide {
+  opacity: 0; /* mờ dần */
+  transform: translateX(100%); /* trượt sang phải */
+}
+.notice-box span:nth-child(2) {
+  position: absolute;
+  right: 10px;
+  bottom: 3.5px;
+  background-color: rgb(202, 232, 245);
+  padding: 12px 18px;
+  border-radius: 50%;
+}
+.notice-box span:nth-child(2):hover {
+  background-color: #bdcee7;
+  cursor: pointer;
 }

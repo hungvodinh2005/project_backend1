@@ -3,7 +3,10 @@ include ../../mixins/filterStatus.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 block main
-    
+    if messages && messages.length > 0
+        div(class="alert alert-primary notice-box" time="5000" notice)
+            span #{messages} 
+            span.close X
     h1(class="pt-2 text-center") DANH SÁCH SẢN PHẨM
     .card.mb-3
         .card-header 
@@ -19,13 +22,17 @@ block main
             .col-6 
                 form(action=`${prefixAdmin}/products/changeMulti?_method=PATCH`, method="post",formChangeMulti)
                     .input-group 
-                        select(name="type" class="ms-2 mt-2 form-select w-25" ) 
+                        select(name="type" class="ms-2 mt-2 form-select"  ) 
+                            option(value="" disabled selected) ---Chọn Chế Độ---
                             option(value="active") Hoạt Động
                             option(value="inactive") Không Hoạt Động
+                            option(value="position") Đổi Vị Trí
+                            option(value="delete") Xóa Item
                         input(type="text" name="id" class="form-control mt-2 d-none")
-                        button(type="submit" class="btn btn-success mt-2 " disabled) Change
-
-        table.table.table-hover.table-bordered.table-striped.rounded-3
+                        button(type="submit" class="btn btn-success mt-2 " ) Change
+            .col-6 
+                a(href=`${prefixAdmin}/products/create`,class="btn btn-outline-success mt-2") + Tạo Mới 
+        table(class="table table-hover table-bordered table-striped rounded-3" tableProducts)
             thead 
                 tr.align-middle
                     th 
@@ -33,6 +40,7 @@ block main
                     th STT 
                     th Hình ảnh 
                     th Tiêu Đề
+                    th Vị Trí 
                     th Giá
                     th Trạng Thái 
                     th Hành Động 
@@ -45,6 +53,8 @@ block main
                         td 
                             img(src=item.thumbnail, height="40",width="80", alt="iphone")  
                         td #{item.title}
+                        td  
+                            input(type="number", name="position" inputPosition value=item.position style="width:50px" required min="1")
                         td #{item.price}$
                         td  
                             if item.status=="active"
@@ -53,10 +63,10 @@ block main
                                 button(class="badge rounded-pill text-bg-danger border-0" buttonID=item._id buttonStatus=item.status buttonChangestatus="") Không Hoạt Động
                         td 
                             button(class="btn btn-warning btn-sm") Sửa
-                            button(class="btn btn-danger btn-sm",style="margin-left:2px") Xóa  
+                            button(class="btn btn-danger btn-sm",style="margin-left:2px" buttonDelete=item._id) Xóa  
             
     +pagination(currentPage,totalPages)
     form(action="", method="POST", path=`${prefixAdmin}/products/changeStatus`,buttonFormStatus="")
-
+    form(action="", method="POST",path=`${prefixAdmin}/products/deletes`,buttonFormDelete) 
 
     
