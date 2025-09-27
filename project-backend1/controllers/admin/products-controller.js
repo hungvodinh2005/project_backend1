@@ -30,7 +30,10 @@ module.exports.productController = async (req, res) => {
     search: search.keyword,
     totalPages: dividePage.totalPages,
     currentPage: dividePage.currentPage,
-    messages: req.flash("info"),
+    messages: {
+      success: req.flash("success"),
+      error: req.flash("error"),
+    },
   });
 };
 module.exports.changeStatus = async (req, res) => {
@@ -40,7 +43,7 @@ module.exports.changeStatus = async (req, res) => {
   const newStatus = status == "active" ? "inactive" : "active";
   console.log(id, newStatus);
   await product.findOne({ _id: id }).updateOne({ status: newStatus });
-  req.flash("info", "Change Status Success!");
+  req.flash("success", "Change Status Success!");
   res.redirect(req.get("Referer"));
 };
 module.exports.changeMulti = async (req, res) => {
@@ -50,22 +53,22 @@ module.exports.changeMulti = async (req, res) => {
   switch (status) {
     case "active":
       await product.updateMany({ _id: { $in: id } }, { status: status });
-      req.flash("info", "Change Status Success!");
+      req.flash("success", "Change Status Success!");
       break;
     case "inactive":
       await product.updateMany({ _id: { $in: id } }, { status: status });
-      req.flash("info", "Change Status Success!");
+      req.flash("success", "Change Status Success!");
       break;
     case "delete":
       await product.updateMany({ _id: { $in: id } }, { deleted: true });
-      req.flash("info", "Delete Items Success!");
+      req.flash("success", "Delete Items Success!");
       break;
     case "position":
       id.forEach(async (item) => {
         const [idId, idPosition] = item.split("-");
         await product.updateOne({ _id: idId }, { position: idPosition });
       });
-      req.flash("info", "Change Position Success!");
+      req.flash("success", "Change Position Success!");
       break;
   }
 
@@ -77,22 +80,56 @@ module.exports.delete = async (req, res) => {
     { _id: id },
     { deleted: true, deleteDate: new Date() }
   );
-  req.flash("info", "Delete Items Success!");
+  req.flash("success", "Delete Items Success!");
   res.redirect(req.get("referer"));
 };
 module.exports.create = async (req, res) => {
   res.render("admin/pages/products/create", {
     pageTitle: "create",
+    messages: { success: req.flash("success"), error: req.flash("error") },
   });
 };
 module.exports.createPost = async (req, res) => {
-  console.log(req.file);
   req.body.price = parseInt(req.body.price);
   req.body.discountPercentage = parseInt(req.body.discountPercentage);
   req.body.position = parseInt(req.body.position);
-  req.body.thumbnail = `/upload/${req.file.filename}`;
+  if (req.file) {
+    req.body.thumbnail = `/upload/${req.file.filename}`;
+  }
+
   const Product = new product(req.body);
   await Product.save();
 
   res.redirect("/admin/products");
+};
+//edit
+module.exports.editItem = async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const find = { _id: id };
+  const [products] = await product.find(find);
+
+  res.render("admin/pages/products/edit", {
+    pageTitle: "Edit",
+    products: products,
+    messages: { success: req.flash("success"), error: req.flash("error") },
+  });
+};
+module.exports.edit = async (req, res) => {
+  const id = req.params.id;
+  console.log(req.body);
+  req.body.price = parseInt(req.body.price);
+  req.body.discountPercentage = parseInt(req.body.discountPercentage);
+  req.body.position = parseInt(req.body.position);
+  if (req.file) {
+    req.body.thumbnail = `/upload/${req.file.filename}`;
+  }
+  try {
+    await product.updateOne({ _id: id }, req.body);
+    req.flash("success", "Update success!");
+    res.redirect(req.get("referer"));
+  } catch (error) {
+    req.flash("success", "Update fail!");
+    res.redirect(req.get("referer"));
+  }
 };

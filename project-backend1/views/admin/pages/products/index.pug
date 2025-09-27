@@ -2,11 +2,9 @@ extends ../../layouts/default.pug
 include ../../mixins/filterStatus.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
+include ../../mixins/alerts.pug
 block main
-    if messages && messages.length > 0
-        div(class="alert alert-primary notice-box" time="5000" notice)
-            span #{messages} 
-            span.close X
+    +alertSuccess(5000)
     h1(class="pt-2 text-center") DANH SÁCH SẢN PHẨM
     .card.mb-3
         .card-header 
@@ -62,11 +60,13 @@ block main
                             else 
                                 button(class="badge rounded-pill text-bg-danger border-0" buttonID=item._id buttonStatus=item.status buttonChangestatus="") Không Hoạt Động
                         td 
-                            button(class="btn btn-warning btn-sm") Sửa
+                            a(href=`${prefixAdmin}/products/edit/${item._id}`,class="btn btn-warning btn-sm") Sửa
                             button(class="btn btn-danger btn-sm",style="margin-left:2px" buttonDelete=item._id) Xóa  
             
     +pagination(currentPage,totalPages)
     form(action="", method="POST", path=`${prefixAdmin}/products/changeStatus`,buttonFormStatus="")
     form(action="", method="POST",path=`${prefixAdmin}/products/deletes`,buttonFormDelete) 
-
-    
+    script(src="/js/script.js")   
+    script(src="/admin/js/index.js") 
+    script(src="/admin/js/products.js") 
+        
