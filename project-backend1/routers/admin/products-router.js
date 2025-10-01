@@ -11,6 +11,7 @@ route.patch("/changeMulti", products.changeMulti);
 route.delete("/deletes/:id", products.delete);
 route.get("/create", products.create);
 route.get("/edit/:id", products.editItem);
+route.get("/details/:id", products.details);
 route.patch(
   "/editItem/:id",
   upload.single("thumbnail"),

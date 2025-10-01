@@ -14,3 +14,20 @@ module.exports.index = async (req, res) => {
     products: products,
   });
 };
+module.exports.detail = async (req, res) => {
+  const slug = req.params.slug;
+  const find = {
+    slug: slug,
+  };
+  try {
+    const [product] = await Product.find(find);
+    console.log(product);
+    res.render("clients/pages/products/detail.pug", {
+      pageTitle: "hungdf",
+      products: product,
+    });
+  } catch (error) {
+    console.log("error");
+    res.redirect(req.get("referer"));
+  }
+};

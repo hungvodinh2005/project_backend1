@@ -133,3 +133,11 @@ module.exports.edit = async (req, res) => {
     res.redirect(req.get("referer"));
   }
 };
+module.exports.details = async (req, res) => {
+  id = req.params.id;
+  const find = { _id: id, deleted: false };
+  const [products] = await product.find(find);
+  res.render("admin/pages/products/detail", {
+    products: products,
+  });
+};
