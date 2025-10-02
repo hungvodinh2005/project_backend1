@@ -26,6 +26,11 @@ app.use(express.static(`${__dirname}/public`));
 routeAdmin(app);
 route(app);
 app.locals.prefixAdmin = systemconfig.prefixAdmin;
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+if (require.main === module) {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`App running at http://localhost:${port}`);
+  });
+}
+
+module.exports = app;
